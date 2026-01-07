@@ -11,4 +11,10 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="10.1.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Application\UseCases\" />
+    <Folder Include="Interface\" />
+    <Folder Include="Infra\" />
+  </ItemGroup>
+
 </Project>
