@@ -9,8 +9,8 @@ namespace LostColonyManager.Domain.Models
         public required ChoiceBonusType BonusType { get; init; }
 
         // Relationships
-        public Guid? EventId { get; init; }
-        public ICollection<Guid> ConsequencesId { get; init; } = new List<Guid>();
+        public Guid EventId { get; init; }
+        public List<Guid> ConsequencesIds { get; private set; } = new ();
 
         // Constructors
         public Choice()

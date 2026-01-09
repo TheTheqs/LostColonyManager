@@ -1,6 +1,6 @@
 ﻿namespace LostColonyManager.Domain.Enums
 {
-    public enum EventType
+    public enum WorldAspect
     {
         Planet = 0,
         Race = 1,

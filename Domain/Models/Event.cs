@@ -6,16 +6,15 @@ namespace LostColonyManager.Domain.Models
     {
         public Guid Id { get; set; }
         public required string Name { get; set; }
-        public EventType Type { get; set; }
+        public WorldAspect Type { get; set; }
 
         // Relationships
-        public Guid? ReferenceId { get; set; }
-        public ICollection<Guid> Choices { get; set; } = new List<Guid>();
+        public Guid ReferenceId { get; set; }
+        public List<Guid> ChoicesIds { get; private set; } = new ();
 
         // Constructors
         public Event()
         {
         }
-
     }
 }

@@ -4,10 +4,10 @@
     {
         public Guid Id { get; init; }
         public required string Name { get; init; }
-        public required int Cateory { get; init; }
+        public required int Category { get; init; }
 
         // Relationships
-        public ICollection<Guid> EventsId { get; init; } = new List<Guid>();
+        public List<Guid> EventsIds { get; private set; } = new ();
 
         // Constructors
         public Planet()
