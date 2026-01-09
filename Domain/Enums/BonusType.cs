@@ -1,6 +1,6 @@
 ﻿namespace LostColonyManager.Domain.Enums
 {
-    public enum ConsequenceType
+    public enum BonusType
     {
         Increase = 0,
         Decrease = 1,

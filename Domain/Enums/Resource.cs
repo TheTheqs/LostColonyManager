@@ -1,6 +1,6 @@
 ﻿namespace LostColonyManager.Domain.Enums
 {
-    public enum ConsequenceTarget
+    public enum Resource
     {
         Happiness = 0,
         Materials = 1,

@@ -8,5 +8,10 @@
 
         // Relationships
         public ICollection<Guid> EventsId { get; init; } = new List<Guid>();
+
+        // Constructors
+        public Planet()
+        {
+        }
     }
 }

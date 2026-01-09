@@ -11,5 +11,11 @@ namespace LostColonyManager.Domain.Models
         // Relationships
         public Guid? ReferenceId { get; set; }
         public ICollection<Guid> Choices { get; set; } = new List<Guid>();
+
+        // Constructors
+        public Event()
+        {
+        }
+
     }
 }

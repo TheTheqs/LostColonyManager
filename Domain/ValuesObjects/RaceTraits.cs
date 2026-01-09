@@ -6,5 +6,8 @@
         public int Technology { get; init; }
         public int Diplomacy { get; init; }
         public int Culture { get; init; }
+
+        // Constructor
+        public RaceTraits() { }
     }
 }
