@@ -5,7 +5,7 @@ namespace LostColonyManager.Domain.Models
     public class Race
     {
         public Guid Id { get; init; }
-        public required string Name { get; init; }
+        public string Name { get; init; } = string.Empty;
         public RaceTraits Traits { get; init; }
 
         // Relationships
@@ -13,5 +13,11 @@ namespace LostColonyManager.Domain.Models
 
         // Constructors
         public Race() { }
+
+        public Race (string name, RaceTraits traits)
+        {
+            Name = name;
+            Traits = traits;
+        }
     }
 }

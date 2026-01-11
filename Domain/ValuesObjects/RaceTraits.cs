@@ -7,7 +7,15 @@
         public int Diplomacy { get; init; }
         public int Culture { get; init; }
 
-        // Constructor
+        // Constructors
         public RaceTraits() { }
+
+        public RaceTraits(int power, int technology, int diplomacy, int culture)
+        {
+            Power = power;
+            Technology = technology;
+            Diplomacy = diplomacy;
+            Culture = culture;
+        }
     }
 }
