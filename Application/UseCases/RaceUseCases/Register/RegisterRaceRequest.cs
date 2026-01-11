@@ -1,4 +1,4 @@
-﻿namespace LostColonyManager.Application.UseCases.RaceUseCases.Register;
+﻿namespace LostColonyManager.Application.UseCases;
 public sealed class RegisterRaceRequest
 {
     public required string Name { get; init; }

@@ -19,7 +19,6 @@
 
   <ItemGroup>
     <Folder Include="Application\Common\Dto\" />
-    <Folder Include="Interface\" />
   </ItemGroup>
 
 </Project>

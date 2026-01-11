@@ -1,9 +1,8 @@
-﻿using LostColonyManager.Application.UseCases.RaceUseCases.Register;
-using LostColonyManager.Domain.Interfaces;
+﻿using LostColonyManager.Domain.Interfaces;
 using LostColonyManager.Domain.Models;
 using LostColonyManager.Domain.ValuesObjects;
 
-namespace LostColonyManager.Application.UseCases.Races.RegisterRace
+namespace LostColonyManager.Application.UseCases
 {
     public sealed class RegisterRaceUseCase
     {
@@ -15,8 +14,7 @@ namespace LostColonyManager.Application.UseCases.Races.RegisterRace
         }
 
         public async Task<RegisterRaceResponse> ExecuteAsync(
-            RegisterRaceRequest request,
-            CancellationToken ct = default
+            RegisterRaceRequest request
         )
         {
             // All validatted and not null
@@ -35,7 +33,7 @@ namespace LostColonyManager.Application.UseCases.Races.RegisterRace
                 throw new ArgumentException("The sum of all traits must be exactly 30.");
 
             // Unique name
-            var nameAlreadyExists = await _repository.ExistsByNameAsync(request.Name, ct);
+            var nameAlreadyExists = await _repository.ExistsByNameAsync(request.Name);
             if (nameAlreadyExists)
                 throw new InvalidOperationException($"A race with name '{request.Name}' already exists.");
 
@@ -48,18 +46,19 @@ namespace LostColonyManager.Application.UseCases.Races.RegisterRace
             );
 
             // Unique Traits
-            var traitsAlreadyExists = await _repository.ExistsByTraitsAsync(traits, ct);
+            var traitsAlreadyExists = await _repository.ExistsByTraitsAsync(traits);
             if (traitsAlreadyExists)
                 throw new InvalidOperationException("A race with the same traits already exists.");
 
             // Build Entity
             var race = new Race(
+                id: Guid.NewGuid(),
                 name: request.Name.Trim(),
                 traits: traits
             );
 
             // Persist
-            await _repository.AddAsync(race, ct);
+            await _repository.AddAsync(race);
 
             // Response
             return new RegisterRaceResponse(

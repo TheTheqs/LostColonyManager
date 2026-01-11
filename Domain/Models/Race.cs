@@ -14,8 +14,9 @@ namespace LostColonyManager.Domain.Models
         // Constructors
         public Race() { }
 
-        public Race (string name, RaceTraits traits)
+        public Race (Guid id, string name, RaceTraits traits)
         {
+            Id = id;
             Name = name;
             Traits = traits;
         }

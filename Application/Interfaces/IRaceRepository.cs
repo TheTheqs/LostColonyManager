@@ -5,9 +5,13 @@ namespace LostColonyManager.Domain.Interfaces
 {
     public interface IRaceRepository
     {
-        Task<bool> ExistsByNameAsync(string name, CancellationToken ct = default);
-        Task<bool> ExistsByTraitsAsync(RaceTraits traits, CancellationToken ct = default);
+        Task<bool> ExistsByNameAsync(string name);
+        Task<bool> ExistsByTraitsAsync(RaceTraits traits);
 
-        Task AddAsync(Race race, CancellationToken ct = default);
+        Task AddAsync(Race race);
+
+        Task<bool> DeleteByIdAsync(Guid id);
+
+        Task<bool> DeleteByNameAsync(string name);
     }
 }
