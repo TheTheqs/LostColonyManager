@@ -9,7 +9,7 @@ namespace LostColonyManager.Domain.Models
         public RaceTraits Traits { get; init; }
 
         // Relationships
-        public List<Guid> EventsIds { get; private set; } = new ();
+        public ICollection<Event> Events { get; private set; } = new List<Event>();
 
         // Constructors
         public Race() { }

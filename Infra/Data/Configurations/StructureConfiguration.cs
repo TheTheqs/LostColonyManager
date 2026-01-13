@@ -51,9 +51,6 @@ namespace LostColonyManager.Infra.Data.Configurations
                 .HasConversion<int>()
                 .IsRequired();
 
-            builder.Property(x => x.ReferenceId)
-                .IsRequired();
-
             builder.Property(x => x.Cost)
                 .HasConversion(DictToJsonConverter)
                 .HasColumnType("jsonb")
@@ -65,8 +62,8 @@ namespace LostColonyManager.Infra.Data.Configurations
                 .Metadata.SetValueComparer(DictComparer);
 
             builder.HasIndex(x => x.Type);
-            builder.HasIndex(x => x.ReferenceId);
             builder.HasIndex(x => x.Name);
         }
+
     }
 }

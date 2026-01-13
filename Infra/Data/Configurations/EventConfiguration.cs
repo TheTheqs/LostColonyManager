@@ -8,7 +8,15 @@ namespace LostColonyManager.Infra.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<Event> builder)
         {
-            builder.ToTable("events");
+            builder.ToTable("events", t =>
+            {
+                t.HasCheckConstraint(
+                    "CK_events_exactly_one_owner",
+                    @"(CASE WHEN ""CampaignId"" IS NULL THEN 0 ELSE 1 END
+                     + CASE WHEN ""RaceId""     IS NULL THEN 0 ELSE 1 END
+                     + CASE WHEN ""PlanetId""   IS NULL THEN 0 ELSE 1 END) = 1"
+                );
+            });
 
             builder.HasKey(x => x.Id);
 
@@ -23,17 +31,35 @@ namespace LostColonyManager.Infra.Data.Configurations
                 .HasConversion<int>()
                 .IsRequired();
 
-            builder.Property(x => x.ReferenceId)
-                .IsRequired();
+            // Owner relationships (optional FKs)
+            builder.HasOne(x => x.Campaign)
+                .WithMany(c => c.Events)
+                .HasForeignKey(x => x.CampaignId)
+                .OnDelete(DeleteBehavior.Cascade);
 
-            builder.Property(x => x.ChoicesIds)
-                .HasColumnType("uuid[]")
-                .IsRequired();
+            builder.HasOne(x => x.Race)
+                .WithMany(r => r.Events)
+                .HasForeignKey(x => x.RaceId)
+                .OnDelete(DeleteBehavior.Cascade);
 
-            // Util Indexes
+            builder.HasOne(x => x.Planet)
+                .WithMany(p => p.Events)
+                .HasForeignKey(x => x.PlanetId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // Choices relationship
+            builder.HasMany(x => x.Choices)
+                .WithOne(c => c.Event)
+                .HasForeignKey(c => c.EventId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // Indexes úteis
             builder.HasIndex(x => x.Type);
-            builder.HasIndex(x => x.ReferenceId);
             builder.HasIndex(x => x.Name);
+
+            builder.HasIndex(x => x.CampaignId);
+            builder.HasIndex(x => x.RaceId);
+            builder.HasIndex(x => x.PlanetId);
         }
     }
 }

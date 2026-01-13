@@ -25,7 +25,6 @@ namespace LostColonyManager.Infra.Data.Configurations
             builder.Property(x => x.MaxRange)
                 .IsRequired();
 
-            // enums
             builder.Property(x => x.Type)
                 .HasConversion<int>()
                 .IsRequired();
@@ -37,8 +36,11 @@ namespace LostColonyManager.Infra.Data.Configurations
             builder.Property(x => x.Value)
                 .IsRequired();
 
-            builder.Property(x => x.ChoiceId)
-                .IsRequired();
+            // Relationship: Choice (1) -> Consequences (N)
+            builder.HasOne(x => x.Choice)
+                .WithMany(c => c.Consequences)
+                .HasForeignKey(x => x.ChoiceId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             // Util Indexes
             builder.HasIndex(x => x.ChoiceId);

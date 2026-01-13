@@ -19,11 +19,12 @@ namespace LostColonyManager.Infra.Data.Configurations
                 .HasMaxLength(120)
                 .IsRequired();
 
-            builder.Property(x => x.EventsIds)
-                .HasColumnType("uuid[]")
-                .IsRequired();
+            // Relationship
+            builder.HasMany(x => x.Events)
+                .WithOne(e => e.Campaign)
+                .HasForeignKey(e => e.CampaignId)
+                .OnDelete(DeleteBehavior.Cascade);
 
-            //Util Indexes
             builder.HasIndex(x => x.Name);
         }
     }

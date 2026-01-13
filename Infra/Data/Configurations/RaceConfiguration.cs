@@ -19,9 +19,11 @@ namespace LostColonyManager.Infra.Data.Configurations
                 .HasMaxLength(120)
                 .IsRequired();
 
-            builder.Property(x => x.EventsIds)
-                .HasColumnType("uuid[]")
-                .IsRequired();
+            // Relationship: Race (1) -> Events (N)
+            builder.HasMany(x => x.Events)
+                .WithOne(e => e.Race)
+                .HasForeignKey(e => e.RaceId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder.ComplexProperty(x => x.Traits, traits =>
             {

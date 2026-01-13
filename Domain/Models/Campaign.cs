@@ -3,10 +3,10 @@
     public class Campaign
     {
         public Guid Id { get; init; }
-        public required string Name { get; init; }
+        public string Name { get; set; } = string.Empty;
 
         // Relationships
-        public List<Guid> EventsIds { get; private set; } = new();
+        public ICollection<Event> Events { get; set; } = new List<Event>();
 
         // Constructors
         public Campaign() { }

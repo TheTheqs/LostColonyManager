@@ -28,10 +28,6 @@ namespace LostColonyManager.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("uuid");
 
-                    b.PrimitiveCollection<List<Guid>>("EventsIds")
-                        .IsRequired()
-                        .HasColumnType("uuid[]");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(120)
@@ -51,10 +47,6 @@ namespace LostColonyManager.Migrations
 
                     b.Property<int>("BonusType")
                         .HasColumnType("integer");
-
-                    b.PrimitiveCollection<List<Guid>>("ConsequencesIds")
-                        .IsRequired()
-                        .HasColumnType("uuid[]");
 
                     b.Property<Guid>("EventId")
                         .HasColumnType("uuid");
@@ -115,16 +107,18 @@ namespace LostColonyManager.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("uuid");
 
-                    b.PrimitiveCollection<List<Guid>>("ChoicesIds")
-                        .IsRequired()
-                        .HasColumnType("uuid[]");
+                    b.Property<Guid?>("CampaignId")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(120)
                         .HasColumnType("character varying(120)");
 
-                    b.Property<Guid>("ReferenceId")
+                    b.Property<Guid?>("PlanetId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("RaceId")
                         .HasColumnType("uuid");
 
                     b.Property<int>("Type")
@@ -132,13 +126,20 @@ namespace LostColonyManager.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CampaignId");
+
                     b.HasIndex("Name");
 
-                    b.HasIndex("ReferenceId");
+                    b.HasIndex("PlanetId");
+
+                    b.HasIndex("RaceId");
 
                     b.HasIndex("Type");
 
-                    b.ToTable("events", (string)null);
+                    b.ToTable("events", null, t =>
+                        {
+                            t.HasCheckConstraint("CK_events_exactly_one_owner", "(CASE WHEN \"CampaignId\" IS NULL THEN 0 ELSE 1 END\r\n                     + CASE WHEN \"RaceId\"     IS NULL THEN 0 ELSE 1 END\r\n                     + CASE WHEN \"PlanetId\"   IS NULL THEN 0 ELSE 1 END) = 1");
+                        });
                 });
 
             modelBuilder.Entity("LostColonyManager.Domain.Models.Planet", b =>
@@ -148,10 +149,6 @@ namespace LostColonyManager.Migrations
 
                     b.Property<int>("Category")
                         .HasColumnType("integer");
-
-                    b.PrimitiveCollection<List<Guid>>("EventsIds")
-                        .IsRequired()
-                        .HasColumnType("uuid[]");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -171,10 +168,6 @@ namespace LostColonyManager.Migrations
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uuid");
-
-                    b.PrimitiveCollection<List<Guid>>("EventsIds")
-                        .IsRequired()
-                        .HasColumnType("uuid[]");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -209,7 +202,24 @@ namespace LostColonyManager.Migrations
                     b.ToTable("races", (string)null);
                 });
 
-            modelBuilder.Entity("LostColonyManager.Domain.Models.Structure", b =>
+            modelBuilder.Entity("PlanetStructure", b =>
+                {
+                    b.Property<Guid>("PlanetId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("StructureId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("PlanetId", "StructureId");
+
+                    b.HasIndex("PlanetId");
+
+                    b.HasIndex("StructureId");
+
+                    b.ToTable("planet_structures", (string)null);
+                });
+
+            modelBuilder.Entity("Structure", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uuid");
@@ -226,9 +236,6 @@ namespace LostColonyManager.Migrations
                         .HasMaxLength(120)
                         .HasColumnType("character varying(120)");
 
-                    b.Property<Guid>("ReferenceId")
-                        .HasColumnType("uuid");
-
                     b.Property<string>("Requeriments")
                         .IsRequired()
                         .HasColumnType("jsonb");
@@ -243,11 +250,106 @@ namespace LostColonyManager.Migrations
 
                     b.HasIndex("Name");
 
-                    b.HasIndex("ReferenceId");
-
                     b.HasIndex("Type");
 
                     b.ToTable("structures", (string)null);
+                });
+
+            modelBuilder.Entity("LostColonyManager.Domain.Models.Choice", b =>
+                {
+                    b.HasOne("LostColonyManager.Domain.Models.Event", "Event")
+                        .WithMany("Choices")
+                        .HasForeignKey("EventId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Event");
+                });
+
+            modelBuilder.Entity("LostColonyManager.Domain.Models.Consequence", b =>
+                {
+                    b.HasOne("LostColonyManager.Domain.Models.Choice", "Choice")
+                        .WithMany("Consequences")
+                        .HasForeignKey("ChoiceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Choice");
+                });
+
+            modelBuilder.Entity("LostColonyManager.Domain.Models.Event", b =>
+                {
+                    b.HasOne("LostColonyManager.Domain.Models.Campaign", "Campaign")
+                        .WithMany("Events")
+                        .HasForeignKey("CampaignId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("LostColonyManager.Domain.Models.Planet", "Planet")
+                        .WithMany("Events")
+                        .HasForeignKey("PlanetId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("LostColonyManager.Domain.Models.Race", "Race")
+                        .WithMany("Events")
+                        .HasForeignKey("RaceId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.Navigation("Campaign");
+
+                    b.Navigation("Planet");
+
+                    b.Navigation("Race");
+                });
+
+            modelBuilder.Entity("PlanetStructure", b =>
+                {
+                    b.HasOne("LostColonyManager.Domain.Models.Planet", "Planet")
+                        .WithMany("Structures")
+                        .HasForeignKey("PlanetId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Structure", "Structure")
+                        .WithMany("Planets")
+                        .HasForeignKey("StructureId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Planet");
+
+                    b.Navigation("Structure");
+                });
+
+            modelBuilder.Entity("LostColonyManager.Domain.Models.Campaign", b =>
+                {
+                    b.Navigation("Events");
+                });
+
+            modelBuilder.Entity("LostColonyManager.Domain.Models.Choice", b =>
+                {
+                    b.Navigation("Consequences");
+                });
+
+            modelBuilder.Entity("LostColonyManager.Domain.Models.Event", b =>
+                {
+                    b.Navigation("Choices");
+                });
+
+            modelBuilder.Entity("LostColonyManager.Domain.Models.Planet", b =>
+                {
+                    b.Navigation("Events");
+
+                    b.Navigation("Structures");
+                });
+
+            modelBuilder.Entity("LostColonyManager.Domain.Models.Race", b =>
+                {
+                    b.Navigation("Events");
+                });
+
+            modelBuilder.Entity("Structure", b =>
+                {
+                    b.Navigation("Planets");
                 });
 #pragma warning restore 612, 618
         }

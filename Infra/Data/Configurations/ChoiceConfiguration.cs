@@ -23,12 +23,17 @@ namespace LostColonyManager.Infra.Data.Configurations
                 .HasConversion<int>()
                 .IsRequired();
 
-            builder.Property(x => x.EventId)
-                .IsRequired();
+            // Relationship: Event (1) -> Choices (N)
+            builder.HasOne(x => x.Event)
+                .WithMany(e => e.Choices)
+                .HasForeignKey(x => x.EventId)
+                .OnDelete(DeleteBehavior.Cascade);
 
-            builder.Property(x => x.ConsequencesIds)
-                .HasColumnType("uuid[]")
-                .IsRequired();
+            // Relationship: Choice (1) -> Consequences (N)
+            builder.HasMany(x => x.Consequences)
+                .WithOne(c => c.Choice)
+                .HasForeignKey(c => c.ChoiceId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             // Util Indexes
             builder.HasIndex(x => x.EventId);

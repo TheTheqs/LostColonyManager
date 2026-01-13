@@ -22,9 +22,12 @@ namespace LostColonyManager.Infra.Data.Configurations
             builder.Property(x => x.Category)
                 .IsRequired();
 
-            builder.Property(x => x.EventsIds)
-                .HasColumnType("uuid[]")
-                .IsRequired();
+            // Relationship: Planet (1) -> Events (N)
+            builder.HasMany(x => x.Events)
+                .WithOne(e => e.Planet)
+                .HasForeignKey(e => e.PlanetId)
+                .OnDelete(DeleteBehavior.Cascade);
+
 
             // Util Indexes
             builder.HasIndex(x => x.Name);
