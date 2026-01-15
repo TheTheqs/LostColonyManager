@@ -3,8 +3,8 @@
     public class Planet
     {
         public Guid Id { get; init; }
-        public required string Name { get; set; }
-        public required int Category { get; set; }
+        public string Name { get; set; } = string.Empty;
+        public int Category { get; set; } = 0;
 
         // Relationships
         public ICollection<Event> Events { get; set; } = new List<Event>();
@@ -14,6 +14,12 @@
         // Constructors
         public Planet()
         {
+        }
+        public Planet(Guid id, string name, int category)
+        {
+            Id = id;
+            Name = name;
+            Category = category;
         }
     }
 }
