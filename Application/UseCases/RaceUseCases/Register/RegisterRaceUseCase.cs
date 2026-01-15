@@ -1,4 +1,4 @@
-﻿using LostColonyManager.Domain.Interfaces;
+﻿using LostColonyManager.Application.Interfaces;
 using LostColonyManager.Domain.Models;
 using LostColonyManager.Domain.ValuesObjects;
 

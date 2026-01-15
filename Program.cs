@@ -1,5 +1,5 @@
+using LostColonyManager.Application.Interfaces;
 using LostColonyManager.Application.UseCases;
-using LostColonyManager.Domain.Interfaces;
 using LostColonyManager.Infra.Data;
 using LostColonyManager.Infra.Data.Repositories;
 using LostColonyManager.Interface.ExceptionHandling;
@@ -25,8 +25,11 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 #region Dependency Injection (Application / Infra)
 builder.Services.AddScoped<IRaceRepository, RaceRepository>();
+builder.Services.AddScoped<ICampaignRepository, CampaignRepository>();
+builder.Services.AddScoped<RegisterCampaignUseCase>();
 builder.Services.AddScoped<RegisterRaceUseCase>();
 builder.Services.AddScoped<DeleteRaceUseCase>();
+builder.Services.AddScoped<DeleteCampaignUseCase>();
 #endregion
 
 var app = builder.Build();

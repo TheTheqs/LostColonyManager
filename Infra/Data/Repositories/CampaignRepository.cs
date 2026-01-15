@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LostColonyManager.Infra.Data.Repositories
 {
-    public sealed class RaceRepository : IRaceRepository
+    public sealed class CampaignRepository : ICampaignRepository
     {
         private readonly AppDbContext _context;
 
-        public RaceRepository(AppDbContext context)
+        public CampaignRepository(AppDbContext context)
         {
             _context = context;
         }
@@ -21,42 +21,35 @@ namespace LostColonyManager.Infra.Data.Repositories
 
             var normalized = name.Trim();
 
-            return _context.Races
+            return _context.Campaigns
                 .AsNoTracking()
                 .AnyAsync(r => r.Name == normalized);
         }
 
-        public Task<bool> ExistsByTraitsAsync(RaceTraits traits)
+        public async Task AddAsync(Campaign campaign)
         {
-            return _context.Races
-                .AsNoTracking()
-                .AnyAsync(r => r.Traits == traits);
-        }
-
-        public async Task AddAsync(Race race)
-        {
-            await _context.Races.AddAsync(race);
+            await _context.Campaigns.AddAsync(campaign);
             await _context.SaveChangesAsync();
         }
 
         public async Task<bool> DeleteByIdAsync(Guid id)
         {
-            var entity = await _context.Races.FirstOrDefaultAsync(r => r.Id == id);
+            var entity = await _context.Campaigns.FirstOrDefaultAsync(c => c.Id == id);
             if (entity is null)
                 return false;
 
-            _context.Races.Remove(entity);
+            _context.Campaigns.Remove(entity);
             await _context.SaveChangesAsync();
             return true;
         }
 
         public async Task<bool> DeleteByNameAsync(string name)
         {
-            var entity = await _context.Races.FirstOrDefaultAsync(r => r.Name == name);
+            var entity = await _context.Campaigns.FirstOrDefaultAsync(c => c.Name == name);
             if (entity is null)
                 return false;
 
-            _context.Races.Remove(entity);
+            _context.Campaigns.Remove(entity);
             await _context.SaveChangesAsync();
             return true;
         }

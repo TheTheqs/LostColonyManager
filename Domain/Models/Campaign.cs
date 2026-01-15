@@ -10,5 +10,10 @@
 
         // Constructors
         public Campaign() { }
+        public Campaign(Guid id, string name)
+        {
+            Id = id;
+            Name = name;
+        }
     }
 }

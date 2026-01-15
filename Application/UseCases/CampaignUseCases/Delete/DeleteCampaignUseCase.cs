@@ -2,17 +2,17 @@
 
 namespace LostColonyManager.Application.UseCases
 {
-    public sealed class DeleteRaceUseCase
+    public sealed class DeleteCampaignUseCase
     {
-        private readonly IRaceRepository _repository;
+        private readonly ICampaignRepository _repository;
 
-        public DeleteRaceUseCase(IRaceRepository repository)
+        public DeleteCampaignUseCase(ICampaignRepository repository)
         {
             _repository = repository;
         }
 
-        public async Task<DeleteRaceResponse> ExecuteAsync(
-            DeleteRaceRequest request
+        public async Task<DeleteCampaignResponse> ExecuteAsync(
+            DeleteCampaignRequest request
         )
         {
             if (request is null)
@@ -24,9 +24,9 @@ namespace LostColonyManager.Application.UseCases
             var deleted = await _repository.DeleteByNameAsync(request.Name);
 
             if (!deleted)
-                throw new KeyNotFoundException($"Race with the name '{request.Name}' was not found.");
+                throw new KeyNotFoundException($"Campaign with the name '{request.Name}' was not found.");
 
-            return new DeleteRaceResponse(request.Name, deleted);
+            return new DeleteCampaignResponse(request.Name, deleted);
         }
     }
 }

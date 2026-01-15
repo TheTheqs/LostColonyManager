@@ -1,17 +1,12 @@
 ﻿using LostColonyManager.Domain.Models;
-using LostColonyManager.Domain.ValuesObjects;
 
 namespace LostColonyManager.Application.Interfaces
 {
-    public interface IRaceRepository
+    public interface ICampaignRepository
     {
         Task<bool> ExistsByNameAsync(string name);
-        Task<bool> ExistsByTraitsAsync(RaceTraits traits);
-
-        Task AddAsync(Race race);
-
+        Task AddAsync(Campaign campaign);
         Task<bool> DeleteByIdAsync(Guid id);
-
         Task<bool> DeleteByNameAsync(string name);
     }
 }
