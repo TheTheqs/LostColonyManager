@@ -9,7 +9,7 @@ namespace LostColonyManager.Application.UseCases
         public GenerateConsequenceUseCase()
         {
         }
-        public GenerateConsequenceResponse ExecuteAsync(
+        public GenerateConsequenceResponse Execute(
             GenerateConsequenceRequest request
         )
         {

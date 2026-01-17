@@ -5,8 +5,8 @@ namespace LostColonyManager.Domain.Models
     public class Choice
     {
         public Guid Id { get; init; }
-        public required string Name { get; set; }
-        public required ChoiceBonusType BonusType { get; set; }
+        public string Name { get; set; } = string.Empty;
+        public ChoiceBonusType BonusType { get; set; }
 
         // Relationships
         public Guid EventId { get; set; }
@@ -16,6 +16,13 @@ namespace LostColonyManager.Domain.Models
         // Constructors
         public Choice()
         {
+        }
+        public Choice(Guid id, string name, ChoiceBonusType bonusType, List<Consequence> consequences)
+        {
+            Id = id;
+            Name = name;
+            BonusType = bonusType;
+            Consequences = consequences;
         }
     }
 }
