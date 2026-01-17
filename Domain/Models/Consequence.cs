@@ -5,11 +5,11 @@ namespace LostColonyManager.Domain.Models
     public class Consequence
     {
         public Guid Id { get; init; }
-        public required string Name { get; set; }
-        public required int MinRange { get; set; }
-        public required int MaxRange { get; set; }
-        public required BonusType Type { get; set; }
-        public required Resource Target { get; set; }
+        public string Name { get; set; } = string.Empty;
+        public int MinRange { get; set; }
+        public int MaxRange { get; set; }
+        public BonusType Type { get; set; }
+        public Resource Target { get; set; }
         public float Value { get; set; }
 
         // Relationships
@@ -19,6 +19,24 @@ namespace LostColonyManager.Domain.Models
         // Constructors
         public Consequence()
         {
+        }
+        public Consequence(
+            Guid id,
+            string name,
+            int minRange,
+            int maxRange,
+            BonusType type,
+            Resource target,
+            float value
+        )
+        {
+            Id = id;
+            Name = name;
+            MinRange = minRange;
+            MaxRange = maxRange;
+            Type = type;
+            Target = target;
+            Value = value;
         }
     }
 }
