@@ -9,14 +9,17 @@ namespace LostColonyManager.Interface.Controllers
     {
         private readonly RegisterCampaignUseCase _registerUseCase;
         private readonly DeleteCampaignUseCase _deleteUseCase;
-        
+        private readonly GetCampaignUseCase _getUseCase;
+
         public CampaignsController(
             RegisterCampaignUseCase registerUseCase,
             DeleteCampaignUseCase deleteUseCase
+            , GetCampaignUseCase getUseCase
         )
         {
             _registerUseCase = registerUseCase;
             _deleteUseCase = deleteUseCase;
+            _getUseCase = getUseCase;
         }
 
         /// <summary>
@@ -51,6 +54,37 @@ namespace LostColonyManager.Interface.Controllers
         {
             var response = await _deleteUseCase.ExecuteAsync(
                 new DeleteCampaignRequest { Name = name }
+            );
+
+            return Ok(response);
+        }
+        /// <summary>
+        /// Gets all campaigns.
+        /// </summary>
+        [HttpGet]
+        [ProducesResponseType(typeof(GetCampaignResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<GetCampaignResponse>> GetAllAsync()
+        {
+            var response = await _getUseCase.ExecuteAsync(
+                new GetCampaignRequest {}
+            );
+
+            return Ok(response);
+        }
+        /// <summary>
+        /// Gets a campaign by Id.
+        /// </summary>
+        [HttpGet("{id:guid}")]
+        [ProducesResponseType(typeof(GetCampaignResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<GetCampaignResponse>> GetByIdAsync(
+            [FromRoute] Guid id
+        )
+        {
+            var response = await _getUseCase.ExecuteAsync(
+                new GetCampaignRequest { Id = id }
             );
 
             return Ok(response);

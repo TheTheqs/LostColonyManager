@@ -30,6 +30,7 @@ builder.Services.AddScoped<IPlanetRepository, PlanetRepository>();
 builder.Services.AddScoped<RegisterCampaignUseCase>();
 builder.Services.AddScoped<RegisterRaceUseCase>();
 builder.Services.AddScoped<RegisterPlanetUseCase>();
+builder.Services.AddScoped<GetCampaignUseCase>();
 builder.Services.AddScoped<DeleteRaceUseCase>();
 builder.Services.AddScoped<DeletePlanetUseCase>();
 builder.Services.AddScoped<DeleteCampaignUseCase>();

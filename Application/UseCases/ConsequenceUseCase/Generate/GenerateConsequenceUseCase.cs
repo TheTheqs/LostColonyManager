@@ -56,7 +56,7 @@ namespace LostColonyManager.Application.UseCases
 
             // Response
             return new GenerateConsequenceResponse(
-                consequence: consequence
+                Consequence: consequence
             );
         }
     }

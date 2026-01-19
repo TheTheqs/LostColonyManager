@@ -32,7 +32,22 @@ namespace LostColonyManager.Infra.Data.Repositories
                 .AsNoTracking()
                 .AnyAsync(r => r.Traits == traits);
         }
-
+        public Task<Race?> GetByIdAsync(Guid id)
+        {
+            return _context.Races
+                .AsNoTracking()
+                .AsSplitQuery()
+                .Include(r => r.Events)
+                    .ThenInclude(e => e.Choices)
+                        .ThenInclude(ch => ch.Consequences)
+                .FirstOrDefaultAsync(r => r.Id == id);
+        }
+        public Task<List<Race>> GetAllAsync()
+        {
+            return _context.Races
+                .AsNoTracking()
+                .ToListAsync();
+        }
         public async Task AddAsync(Race race)
         {
             await _context.Races.AddAsync(race);

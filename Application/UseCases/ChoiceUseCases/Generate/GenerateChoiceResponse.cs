@@ -2,9 +2,6 @@
 
 namespace LostColonyManager.Application.UseCases;
 
-public class GenerateChoiceResponse(
-        Choice choice
-    )
-{
-    public Choice Consequence { get; } = choice;
-}
+public sealed record GenerateChoiceResponse(
+        Choice Choice
+    );

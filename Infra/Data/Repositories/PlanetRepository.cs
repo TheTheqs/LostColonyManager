@@ -24,7 +24,22 @@ namespace LostColonyManager.Infra.Data.Repositories
                 .AsNoTracking()
                 .AnyAsync(r => r.Name == normalized);
         }
-
+        public Task<Planet?> GetByIdAsync(Guid id)
+        {
+            return _context.Planets
+                .AsNoTracking()
+                .AsSplitQuery()
+                .Include(p => p.Events)
+                    .ThenInclude(e => e.Choices)
+                        .ThenInclude(ch => ch.Consequences)
+                .FirstOrDefaultAsync(p => p.Id == id);
+        }
+        public Task<List<Planet>> GetAllAsync()
+        {
+            return _context.Planets
+                .AsNoTracking()
+                .ToListAsync();
+        }
         public async Task AddAsync(Planet planet)
         {
             await _context.Planets.AddAsync(planet);

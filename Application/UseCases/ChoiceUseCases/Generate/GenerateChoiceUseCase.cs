@@ -59,7 +59,7 @@ namespace LostColonyManager.Application.UseCases
 
             // Response
             return new GenerateChoiceResponse(
-                choice: choice
+                Choice: choice
             );
         }
     }
