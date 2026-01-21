@@ -9,14 +9,17 @@ namespace LostColonyManager.Interface.Controllers
     {
         private readonly RegisterRaceUseCase _registerUseCase;
         private readonly DeleteRaceUseCase _deleteUseCase;
+        private readonly GetRaceUseCase _getUseCase;
 
         public RacesController(
             RegisterRaceUseCase registerUseCase,
-            DeleteRaceUseCase deleteUseCase
+            DeleteRaceUseCase deleteUseCase,
+            GetRaceUseCase getUseCase
         )
         {
             _registerUseCase = registerUseCase;
             _deleteUseCase = deleteUseCase;
+            _getUseCase = getUseCase;
         }
 
         /// <summary>
@@ -51,6 +54,37 @@ namespace LostColonyManager.Interface.Controllers
         {
             var response = await _deleteUseCase.ExecuteAsync(
                 new DeleteRaceRequest { Name = name }
+            );
+
+            return Ok(response);
+        }
+        /// <summary>
+        /// Gets all races.
+        /// </summary>
+        [HttpGet]
+        [ProducesResponseType(typeof(GetRaceResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<GetRaceResponse>> GetAllAsync()
+        {
+            var response = await _getUseCase.ExecuteAsync(
+                new GetRaceRequest { }
+            );
+
+            return Ok(response);
+        }
+        /// <summary>
+        /// Gets a race by Id.
+        /// </summary>
+        [HttpGet("{id:guid}")]
+        [ProducesResponseType(typeof(GetRaceResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<GetRaceResponse>> GetByIdAsync(
+            [FromRoute] Guid id
+        )
+        {
+            var response = await _getUseCase.ExecuteAsync(
+                new GetRaceRequest { Id = id }
             );
 
             return Ok(response);
