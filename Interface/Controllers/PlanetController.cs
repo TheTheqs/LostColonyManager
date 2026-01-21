@@ -9,14 +9,17 @@ namespace LostColonyManager.Interface.Controllers
     {
         private readonly RegisterPlanetUseCase _registerUseCase;
         private readonly DeletePlanetUseCase _deleteUseCase;
+        private readonly GetPlanetUseCase _getUseCase;
 
         public PlanetsController(
             RegisterPlanetUseCase registerUseCase,
-            DeletePlanetUseCase deleteUseCase
+            DeletePlanetUseCase deleteUseCase,
+            GetPlanetUseCase getPlanetUse
         )
         {
             _registerUseCase = registerUseCase;
             _deleteUseCase = deleteUseCase;
+            _getUseCase = getPlanetUse;
         }
 
         /// <summary>
@@ -51,6 +54,37 @@ namespace LostColonyManager.Interface.Controllers
         {
             var response = await _deleteUseCase.ExecuteAsync(
                 new DeletePlanetRequest { Name = name }
+            );
+
+            return Ok(response);
+        }
+        /// <summary>
+        /// Gets all planets.
+        /// </summary>
+        [HttpGet]
+        [ProducesResponseType(typeof(GetPlanetResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<GetPlanetResponse>> GetAllAsync()
+        {
+            var response = await _getUseCase.ExecuteAsync(
+                new GetPlanetRequest { }
+            );
+
+            return Ok(response);
+        }
+        /// <summary>
+        /// Gets a planet by Id.
+        /// </summary>
+        [HttpGet("{id:guid}")]
+        [ProducesResponseType(typeof(GetPlanetResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<GetPlanetResponse>> GetByIdAsync(
+            [FromRoute] Guid id
+        )
+        {
+            var response = await _getUseCase.ExecuteAsync(
+                new GetPlanetRequest { Id = id }
             );
 
             return Ok(response);
