@@ -27,9 +27,11 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddScoped<IRaceRepository, RaceRepository>();
 builder.Services.AddScoped<ICampaignRepository, CampaignRepository>();
 builder.Services.AddScoped<IPlanetRepository, PlanetRepository>();
+builder.Services.AddScoped<IStructureRepository, StructureRepository>();
 builder.Services.AddScoped<RegisterCampaignUseCase>();
 builder.Services.AddScoped<RegisterRaceUseCase>();
 builder.Services.AddScoped<RegisterPlanetUseCase>();
+builder.Services.AddScoped<RegisterStructureUseCase>();
 builder.Services.AddScoped<GetCampaignUseCase>();
 builder.Services.AddScoped<GetPlanetUseCase>();
 builder.Services.AddScoped<GetRaceUseCase>();

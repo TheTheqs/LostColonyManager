@@ -6,6 +6,8 @@ public class Structure
     public Guid Id { get; init; }
     public required string Name { get; init; }
     public required BonusType BonusType { get; init; }
+    public required List<Resource> BonusTargets { get; init; } = new();
+    public bool IncreasePerTurn { get; init; }
     public float Value { get; init; }
     public Dictionary<Resource, int> Cost { get; init; } = new();
     public Dictionary<Resource, int> Requeriments { get; init; } = new();
