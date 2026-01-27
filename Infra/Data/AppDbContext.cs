@@ -14,6 +14,7 @@ namespace LostColonyManager.Infra.Data
         public DbSet<Planet> Planets => Set<Planet>();
         public DbSet<Race> Races => Set<Race>();
         public DbSet<Structure> Structures => Set<Structure>();
+        public DbSet<PlanetStructure> PlanetStructures => Set<PlanetStructure>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

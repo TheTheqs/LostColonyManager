@@ -8,6 +8,7 @@ namespace LostColonyManager.Application.Interfaces
         Task<bool> ExistsByNameAsync(string name);
         Task<bool> ExistsByTraitsAsync(RaceTraits traits);
         Task<Race?> GetByIdAsync(Guid id);
+        Task<bool> ExistsByIdAsync(Guid id);
         Task<List<Race>> GetAllAsync();
         Task AddAsync(Race race);
         Task<bool> DeleteByIdAsync(Guid id);

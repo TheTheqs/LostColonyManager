@@ -6,6 +6,7 @@ namespace LostColonyManager.Application.Interfaces
     {
         Task<bool> ExistsByNameAsync(string name);
         Task<Planet?> GetByIdAsync(Guid id);
+        Task<bool> ExistsByIdAsync(Guid id);
         Task<List<Planet>> GetAllAsync();
         Task AddAsync(Planet planet);
         Task<bool> DeleteByIdAsync(Guid id);

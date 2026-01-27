@@ -34,6 +34,15 @@ namespace LostColonyManager.Infra.Data.Repositories
                         .ThenInclude(ch => ch.Consequences)
                 .FirstOrDefaultAsync(p => p.Id == id);
         }
+        public Task<bool> ExistsByIdAsync(Guid id)
+        {
+            if (id == Guid.Empty)
+                return Task.FromResult(false);
+
+            return _context.Planets
+                .AsNoTracking()
+                .AnyAsync(p => p.Id == id);
+        }
         public Task<List<Planet>> GetAllAsync()
         {
             return _context.Planets

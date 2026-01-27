@@ -2,6 +2,7 @@
 using LostColonyManager.Domain.Models;
 using LostColonyManager.Domain.ValuesObjects;
 using Microsoft.EntityFrameworkCore;
+using System.Xml.Linq;
 
 namespace LostColonyManager.Infra.Data.Repositories
 {
@@ -25,6 +26,16 @@ namespace LostColonyManager.Infra.Data.Repositories
                 .AsNoTracking()
                 .AnyAsync(r => r.Name == normalized);
         }
+        public Task<bool> ExistsByIdAsync(Guid id)
+        {
+            if (id == Guid.Empty)
+                return Task.FromResult(false);
+
+            return _context.Races
+                .AsNoTracking()
+                .AnyAsync(r => r.Id == id);
+        }
+
 
         public Task<bool> ExistsByTraitsAsync(RaceTraits traits)
         {

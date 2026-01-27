@@ -1,4 +1,5 @@
 ﻿using LostColonyManager.Application.Interfaces;
+using LostColonyManager.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 
 namespace LostColonyManager.Infra.Data.Repositories
@@ -71,6 +72,15 @@ namespace LostColonyManager.Infra.Data.Repositories
             _context.Structures.Remove(entity);
             await _context.SaveChangesAsync();
             return true;
+        }
+        public Task<bool> ExistsByIdAsync(Guid id)
+        {
+            if (id == Guid.Empty)
+                return Task.FromResult(false);
+
+            return _context.Structures
+                .AsNoTracking()
+                .AnyAsync(s => s.Id == id);
         }
     }
 }
