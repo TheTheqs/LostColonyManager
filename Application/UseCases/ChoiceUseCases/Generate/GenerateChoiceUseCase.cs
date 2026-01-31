@@ -13,7 +13,7 @@ namespace LostColonyManager.Application.UseCases
         {
             _consequenceUseCase = consequenceUseCase;
         }
-        public GenerateChoiceResponse ExecuteAsync(
+        public GenerateChoiceResponse Execute(
             GenerateChoiceRequest request
         )
         {

@@ -24,5 +24,12 @@ namespace LostColonyManager.Domain.Models
         public Event()
         {
         }
+        public Event(Guid id, string name, WorldAspect type, List<Choice> choices)
+        {
+            Id = id;
+            Name = name;
+            Type = type;
+            Choices = choices;
+        }
     }
 }

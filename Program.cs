@@ -29,18 +29,24 @@ builder.Services.AddScoped<ICampaignRepository, CampaignRepository>();
 builder.Services.AddScoped<IPlanetRepository, PlanetRepository>();
 builder.Services.AddScoped<IStructureRepository, StructureRepository>();
 builder.Services.AddScoped<IPlanetStructureRepository, PlanetStructureRepository>();
+builder.Services.AddScoped<IEventRepository, EventRepository>();
+
 builder.Services.AddScoped<RegisterCampaignUseCase>();
 builder.Services.AddScoped<RegisterRaceUseCase>();
 builder.Services.AddScoped<RegisterPlanetUseCase>();
 builder.Services.AddScoped<RegisterStructureUseCase>();
+builder.Services.AddScoped<RegisterEventUseCase>();
 builder.Services.AddScoped<GetCampaignUseCase>();
 builder.Services.AddScoped<GetPlanetUseCase>();
 builder.Services.AddScoped<GetRaceUseCase>();
+builder.Services.AddScoped<GetEventUseCase>();
 builder.Services.AddScoped<GetStructureUseCase>();
 builder.Services.AddScoped<ManageAssociationUseCase>();
 builder.Services.AddScoped<DeleteRaceUseCase>();
 builder.Services.AddScoped<DeletePlanetUseCase>();
 builder.Services.AddScoped<DeleteCampaignUseCase>();
+builder.Services.AddScoped<GenerateConsequenceUseCase>();
+builder.Services.AddScoped<GenerateChoiceUseCase>();
 #endregion
 
 var app = builder.Build();
