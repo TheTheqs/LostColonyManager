@@ -23,6 +23,14 @@ namespace LostColonyManager.Infra.Data.Repositories
                 .AnyAsync(x => x.PlanetId == planetId && x.StructureId == structureId);
         }
 
+        // NEW: export uses this
+        public Task<List<PlanetStructure>> GetAllAsync()
+        {
+            return _context.PlanetStructures
+                .AsNoTracking()
+                .ToListAsync();
+        }
+
         public async Task AddAsync(PlanetStructure entity)
         {
             if (entity is null)

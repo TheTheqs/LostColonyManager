@@ -1,8 +1,7 @@
-﻿using LostColonyManager.Domain.Enums;
-using LostColonyManager.Domain.Models;
+﻿using LostColonyManager.Interface.Dtos;
 
 namespace LostColonyManager.Application.UseCases;
 
 public sealed record RegisterEventResponse(
-        Event Event
+        EventDto Event
     );

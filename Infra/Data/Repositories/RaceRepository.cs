@@ -2,7 +2,6 @@
 using LostColonyManager.Domain.Models;
 using LostColonyManager.Domain.ValuesObjects;
 using Microsoft.EntityFrameworkCore;
-using System.Xml.Linq;
 
 namespace LostColonyManager.Infra.Data.Repositories
 {

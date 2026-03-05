@@ -36,7 +36,6 @@ namespace LostColonyManager.Infra.Data.Repositories
         {
             return _context.Structures
                 .AsNoTracking()
-                .Include(s => s.Planets)
                 .ToListAsync();
         }
         public async Task AddAsync(Structure structure)

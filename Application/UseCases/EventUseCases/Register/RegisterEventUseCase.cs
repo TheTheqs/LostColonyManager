@@ -2,6 +2,7 @@
 using LostColonyManager.Application.UseCases;
 using LostColonyManager.Domain.Enums;
 using LostColonyManager.Domain.Models;
+using LostColonyManager.Interface.Dtos;
 using System.Security.Cryptography.X509Certificates;
 
 namespace LostColonyManager.Application.UseCases
@@ -78,7 +79,32 @@ namespace LostColonyManager.Application.UseCases
 
             // Persistence
             await _repository.AddAsync(@event);
-            return new RegisterEventResponse(Event: @event);
+            var dto = new EventDto(
+                Id: @event.Id,
+                Name: @event.Name,
+                Type: @event.Type,
+                Campaign: null,
+                Race: null,
+                Planet: null,
+                Choices: @event.Choices.Select(c => new ChoiceDto(
+                    Id: c.Id,
+                    Name: c.Name,
+                    BonusType: c.BonusType,
+                    EventId: @event.Id,
+                    Consequences: c.Consequences.Select(k => new ConsequenceDto(
+                        Id: k.Id,
+                        Name: k.Name,
+                        MinRange: k.MinRange,
+                        MaxRange: k.MaxRange,
+                        Type: k.Type,
+                        Target: k.Target,
+                        Value: k.Value,
+                        ChoiceId: c.Id
+                    )).ToList()
+                )).ToList()
+            );
+
+            return new RegisterEventResponse(dto);
         }
     }
 }

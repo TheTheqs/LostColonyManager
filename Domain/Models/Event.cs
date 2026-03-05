@@ -18,6 +18,7 @@ namespace LostColonyManager.Domain.Models
 
         public Guid? PlanetId { get; set; }
         public Planet? Planet { get; set; }
+
         public ICollection<Choice> Choices { get; private set; } = new List<Choice>();
 
         // Constructors

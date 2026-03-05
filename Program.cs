@@ -47,6 +47,7 @@ builder.Services.AddScoped<DeletePlanetUseCase>();
 builder.Services.AddScoped<DeleteCampaignUseCase>();
 builder.Services.AddScoped<GenerateConsequenceUseCase>();
 builder.Services.AddScoped<GenerateChoiceUseCase>();
+builder.Services.AddScoped<ExportDatabaseUseCase>();
 #endregion
 
 var app = builder.Build();

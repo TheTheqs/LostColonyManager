@@ -6,6 +6,6 @@
         Decrease = 1,
         Multiply = 2,
         Trigger = 3,
-        Neutral = 5
+        Neutral = 4
     }
 }

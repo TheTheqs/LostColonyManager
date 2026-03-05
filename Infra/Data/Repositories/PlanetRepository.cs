@@ -32,6 +32,8 @@ namespace LostColonyManager.Infra.Data.Repositories
                 .Include(p => p.Events)
                     .ThenInclude(e => e.Choices)
                         .ThenInclude(ch => ch.Consequences)
+                .Include(p => p.Structures)
+                    .ThenInclude(ps => ps.Structure)
                 .FirstOrDefaultAsync(p => p.Id == id);
         }
         public Task<bool> ExistsByIdAsync(Guid id)
